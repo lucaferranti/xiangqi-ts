@@ -3,7 +3,7 @@
 [![Test](https://github.com/lucaferranti/xiangqi-ts/workflows/Test/badge.svg)](https://github.com/lucaferranti/xiangqi-ts/actions)
 [![npm](https://img.shields.io/npm/v/xiangqi-ts)](https://www.npmjs.com/package/xiangqi-ts)
 
-Xiangqi rules and operations in TypeScript.
+Xiangqi rules and operations in TypeScript. This is a port of [chessops](https://github.com/niklasf/chessops) to xiangqi.
 
 ## Documentation
 
