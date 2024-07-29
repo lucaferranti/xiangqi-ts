@@ -49,14 +49,17 @@ test('overspecified pawn move', () => {
   expect(parseSan(pos, 'P4e5')).toEqual({ from: 31, to: 40 });
 });
 
-// test('parse and make move from different positions', () => {
-//   const fen_moves = [
-//     ['N3k2N/8/8/3N4/N4N1N/2R5/1R6/4K3 w - -', 'e1f1', 'Kf1'],
-//   ];
-//   for (const [fen, uci, san] of fen_moves) {
-//     const pos = Xiangqi.fromSetup(parseFen(fen).unwrap()).unwrap();
-//     const move = parseUci(uci)!;
-//     expect(parseSan(pos, san)).toEqual(move);
-//     expect(makeSan(pos, move)).toBe(san);
-//   }
-// });
+test('parse and make move from different positions', () => {
+  const fen_moves = [
+    ['5k2r/r8/9/9/9/9/9/9/9/4K4 b - -', 'i10i9', 'Rii9'], // disambiguate by file first
+    ['5k2r/9/9/9/9/9/9/9/8r/4K4 b - -', 'i10i3', 'R10i3'], // disambiguate by rank
+    ['5k1rR/9/9/9/9/9/9/9/7r1/4K4 b - -', 'h2h3', 'Rh3'], // no disambiguation needed because one piece is pinned
+    ['5k3/9/3P1P3/9/9/9/9/9/9/4K4 w - -', 'd8e8', 'Pde8'], // promoted pawn disambiguation
+  ];
+  for (const [fen, uci, san] of fen_moves) {
+    const pos = Xiangqi.fromSetup(parseFen(fen).unwrap()).unwrap();
+    const move = parseUci(uci)!;
+    expect(parseSan(pos, san)).toEqual(move);
+    expect(makeSan(pos, move)).toBe(san);
+  }
+});
