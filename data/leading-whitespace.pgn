@@ -1,0 +1,11 @@
+    [Variant "Standard"]
+
+1. Che3 Che8 2. Ng3 Ng8 3. Rh1 { Leading whitespace, header followed, blank line, move sequence }
+
+    [Variant "Standard"] 1. Che3 Che8 2. Ng3 Ng8 3. Rh1 { leading whitespace, header, move sequence }
+
+    [Variant "Standard"]
+1. Che3 Che8 2. Ng3 Ng8 3. Rh1 { leading whitespace, header, new line, move sequence }
+
+
+    1. Che3 Che8 2. Ng3 Ng8 3. Rh1 { leading whitespace, no header, move sequence }
