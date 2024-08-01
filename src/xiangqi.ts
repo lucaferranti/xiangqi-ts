@@ -8,11 +8,10 @@ import {
   chariotAttacks,
   ELEPHANT_SQUARES,
   elephantAttacks,
-  horseAttacks,
+  isValidStep,
   KING_SQUARES,
   kingAttacks,
   pawnAttacks,
-  isValidStep
 } from './attacks.js';
 import { Board, boardEquals } from './board.js';
 import { Setup } from './setup.js';
