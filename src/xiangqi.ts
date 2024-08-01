@@ -12,6 +12,7 @@ import {
   KING_SQUARES,
   kingAttacks,
   pawnAttacks,
+  isValidStep
 } from './attacks.js';
 import { Board, boardEquals } from './board.js';
 import { Setup } from './setup.js';
@@ -93,15 +94,27 @@ const PIECE_SPECS = {
   },
 };
 
+const HORSE_DIR_INV_BLOCKERS = [[-19, -10], [-17, -8], [-11, -10], [7, 8], [-7, -8], [11, 10], [17, 8], [19, 10]];
+export const horseInvAttacks = (square: Square, occupied: SquareSet): SquareSet => {
+  let range = SquareSet.empty();
+  for (const dir_blocker of HORSE_DIR_INV_BLOCKERS) {
+    if (!occupied.has(square + dir_blocker[1])) {
+      const dest = square + dir_blocker[0];
+      if (isValidStep(square, dest)) range = range.with(dest);
+    }
+  }
+  return range;
+};
+
 // return bitboard with all pieces of `attacker` color attacking the square `square`.
 const attacksTo = (square: Square, attacker: Color, board: Board, occupied: SquareSet): SquareSet =>
   board[attacker].intersect(
     chariotAttacks(square, occupied).intersect(board.chariot)
-      .union(horseAttacks(square, occupied).intersect(board.horse))
+      .union(horseInvAttacks(square, occupied).intersect(board.horse))
       .union(elephantAttacks(attacker, square, occupied).intersect(board.elephant))
       .union(advisorAttacks(attacker, square).intersect(board.advisor))
       .union(kingAttacks(attacker, square).intersect(board.king))
-      .union(cannonAttacks(square, occupied).intersect(board.cannon)) // TODO: DOES NOT WORK FOR CANNONS
+      .union(cannonAttacks(square, occupied).intersect(board.cannon))
       .union(pawnAttacks(opposite(attacker), square).intersect(board.pawn)),
   );
 

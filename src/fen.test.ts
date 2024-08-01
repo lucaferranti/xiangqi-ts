@@ -14,7 +14,7 @@ test('make initial fen', () => {
 
 test('parse initial fen', () => {
   const setup = parseFen(INITIAL_FEN).unwrap();
-  expect(boardEquals(setup.board, Board.default())).toBe(true); // TODO: toEqual halted the test, why?
+  expect(setup.board).toEqual(Board.default());
   expect(setup.turn).toEqual('red');
   expect(setup.halfmoves).toEqual(0);
   expect(setup.fullmoves).toEqual(1);
@@ -22,7 +22,7 @@ test('parse initial fen', () => {
 
 test('partial fen', () => {
   const setup = parseFen(INITIAL_BOARD_FEN).unwrap();
-  expect(boardEquals(setup.board, Board.default())).toBe(true); // TODO: toEqual halted the test, why?
+  expect(setup.board).toEqual(Board.default());
   expect(setup.turn).toEqual('red');
   expect(setup.halfmoves).toEqual(0);
   expect(setup.fullmoves).toEqual(1);

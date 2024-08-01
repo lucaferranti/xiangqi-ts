@@ -26,7 +26,7 @@ const tabulate = <T>(f: (square: Square) => T): BySquare<T> => {
  * Check that the move from `origin` to `dest` is valid for a stepping piece.
  * The last part of the check is to ensure a piece does not wrap around the other side of the board.
  */
-const isValidStep = (origin: Square, dest: Square): boolean => {
+export const isValidStep = (origin: Square, dest: Square): boolean => {
   return 0 <= dest
     && dest < 90
     && Math.abs(squareFile(origin) - squareFile(dest)) <= 2;
