@@ -1,5 +1,5 @@
 {
-  "name": "xiangqi-ts",
+  "name": "elephantops",
   "version": "0.1.0",
   "description": "Xiangqi rules and operations",
   "keywords": [
@@ -9,7 +9,7 @@
     "ucci",
     "typescript"
   ],
-  "repository": "github:lucaferranti/xiangqi-ts",
+  "repository": "github:lucaferranti/elephantops",
   "author": "Luca Ferranti, Niklas Fiekas (original chessops)",
   "license": "GPL-3.0-or-later",
   "type": "module",

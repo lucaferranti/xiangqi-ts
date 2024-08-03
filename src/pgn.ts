@@ -8,8 +8,8 @@
  * tokens.
  *
  * ```ts
- * import { parsePgn, startingPosition } from 'xiangqi-ts/pgn';
- * import { parseSan } from 'xiangqi-ts/san';
+ * import { parsePgn, startingPosition } from 'elephantops/pgn';
+ * import { parseSan } from 'elephantops/san';
  *
  * const pgn = '1. Che3 Che8 *';
  * const games = parsePgn(pgn);
@@ -33,7 +33,7 @@
  * ```ts
  *
  * import { createReadStream } from 'fs';
- * import { PgnParser } from 'xiangqi-ts/pgn';
+ * import { PgnParser } from 'elephantops/pgn';
  *
  * const stream = createReadStream('games.pgn', { encoding: 'utf-8' });
  *
@@ -66,9 +66,9 @@
  * In the example below, the current position `pos` is provided as context.
  *
  * ```ts
- * import { transform } from 'xiangqi-ts/pgn';
- * import { makeFen } from 'xiangqi-ts/fen';
- * import { parseSan, makeSanAndPlay } from 'xiangqi-ts/san';
+ * import { transform } from 'elephantops/pgn';
+ * import { makeFen } from 'elephantops/fen';
+ * import { parseSan, makeSanAndPlay } from 'elephantops/san';
  *
  * const pos = startingPosition(game.headers).unwrap();
  * game.moves = transform(game.moves, pos, (pos, node) => {
@@ -93,7 +93,7 @@
  * Requires each node to at least have a `san` property.
  *
  * ```
- * import { makePgn } from 'xiangqi-ts/pgn';
+ * import { makePgn } from 'elephantops/pgn';
  *
  * const rewrittenPgn = makePgn(game);
  * ```
