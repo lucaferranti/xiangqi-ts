@@ -1,6 +1,6 @@
 # elephantops
 
-[![Test](https://github.com/lucaferranti/elephantops/workflows/Test/badge.svg)](https://github.com/lucaferranti/elephantops/actions)
+[![Test](https://github.com/lucaferranti/elephantops/workflows/Check/badge.svg)](https://github.com/lucaferranti/elephantops/actions/workflows/check.yml)
 [![npm](https://img.shields.io/npm/v/elephantops)](https://www.npmjs.com/package/elephantops)
 
 Xiangqi rules and operations in TypeScript. This is a port of [chessops](https://github.com/niklasf/chessops) to xiangqi.
