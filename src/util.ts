@@ -30,7 +30,9 @@ export const roleToChar = (role: Role): string => {
   }
 };
 
-export function charToRole(ch: 'p' | 'c' | 'r' | 'n' | 'b' | 'a' | 'k' | 'P' | 'C' | 'R' | 'N' | 'B' | 'A' | 'K'): Role;
+export function charToRole(
+  ch: 'p' | 'c' | 'r' | 'n' | 'h' | 'b' | 'e' | 'a' | 'k' | 'P' | 'C' | 'R' | 'N' | 'H' | 'B' | 'E' | 'A' | 'K',
+): Role;
 export function charToRole(ch: string): Role | undefined;
 export function charToRole(ch: string): Role | undefined {
   switch (ch.toLowerCase()) {
@@ -41,8 +43,10 @@ export function charToRole(ch: string): Role | undefined {
     case 'r':
       return 'chariot';
     case 'n':
+    case 'h':
       return 'horse';
     case 'b':
+    case 'e':
       return 'elephant';
     case 'a':
       return 'advisor';

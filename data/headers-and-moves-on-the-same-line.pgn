@@ -1,8 +1,8 @@
-[Variant "Standard"] 1.Che3 Che8 2. Ng3 Ng8 3. Rh1 { Header on the same line as moves }
+[Variant "Standard"] 1.Che3 Che8 2. Hg3 Ng8 3. Rh1 { Header on the same line as moves }
 
 [Variant "Standard"]
-1.Che3 Che8 2. Ng3 Ng8 3. Rh1 { Header followed by a separate line containing a sequence of moves}
+1.Che3 Che8 2. Hg3 Ng8 3. Rh1 { Header followed by a separate line containing a sequence of moves}
 
 [Variant "Standard"]
 
-1.Che3 Che8 2. Ng3 Ng8 3. Rh1 { Header followed by a blank line and a line containing a sequence of moves }
+1.Che3 Che8 2. Hg3 Ng8 3. Rh1 { Header followed by a blank line and a line containing a sequence of moves }

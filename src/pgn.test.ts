@@ -166,7 +166,7 @@ testPgnFile(
     expect(Array.from(game.moves.mainline()).map(move => move.san)).toStrictEqual([
       'Che3',
       'Che8',
-      'Ng3',
+      'Hg3',
       'Ng8',
       'Rh1',
     ]);

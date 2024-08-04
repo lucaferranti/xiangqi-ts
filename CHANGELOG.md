@@ -5,6 +5,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Changes
+
+- In FEN/SAN/PGN horse can also be represented by `H/h` and elephant also by `E/e`.
+
 ### Added
 
 - Add compatibility with [xiangqiground](https://github.com/lucaferranti/xiangqiground)

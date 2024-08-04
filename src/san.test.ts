@@ -30,6 +30,9 @@ test('parse basic san', () => {
   const pos = Xiangqi.default();
   expect(parseSan(pos, 'Cbe3')).toEqual(parseUci('b3e3'));
   expect(parseSan(pos, 'Ng3')).toEqual(parseUci('h1g3'));
+  expect(parseSan(pos, 'Hg3')).toEqual(parseUci('h1g3'));
+  expect(parseSan(pos, 'Ege3')).toEqual(parseUci('g1e3'));
+  expect(parseSan(pos, 'Bge3')).toEqual(parseUci('g1e3'));
   expect(parseSan(pos, 'Ade2')).toEqual(parseUci('d1e2'));
   expect(parseSan(pos, 'Pe5')).toEqual(parseUci('e4e5'));
   expect(parseSan(pos, 'Cxb10')).toEqual(parseUci('b3b10'));

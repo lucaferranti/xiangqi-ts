@@ -70,10 +70,10 @@ export const makeSan = (pos: Position, move: Move): string => makeSanAndPlay(pos
 export const parseSan = (pos: Position, san: string): Move | undefined => {
   const ctx = pos.ctx();
 
-  const match = san.match(/^([NBRKACP])([a-i])?(10|[1-9])?[-x]?([a-i](?:10|[1-9]))[+#]?$/) as
+  const match = san.match(/^([NBRKACPEH])([a-i])?(10|[1-9])?[-x]?([a-i](?:10|[1-9]))[+#]?$/) as
     | [
       string,
-      'N' | 'B' | 'R' | 'K' | 'A' | 'C' | 'P',
+      'H' | 'N' | 'B' | 'E' | 'R' | 'K' | 'A' | 'C' | 'P',
       string | undefined,
       string | undefined,
       SquareName,
