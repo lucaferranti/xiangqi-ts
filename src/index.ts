@@ -53,7 +53,7 @@ export { defaultSetup, Material, MaterialSide, Setup } from './setup.js';
 
 export { Context, IllegalSetup, Position, PositionError, Xiangqi } from './xiangqi.js';
 
-// export * as compat from './compat.js';
+export * as compat from './compat.js';
 
 export * as debug from './debug.js';
 

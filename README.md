@@ -34,6 +34,8 @@ Xiangqi rules and operations in TypeScript. This is a port of [chessops](https:/
   - Game tree model
   - Transform game tree to augment nodes with arbitrary user data
   - Parse comments with evaluations, clocks and shapes
+- [Compatibility](https://lucaferranti.github.io/xiangqi-ts/modules/compat.html):
+  [xiangqiground](https://github.com/lucaferranti/xiangqiground)
 
 ## Example
 
