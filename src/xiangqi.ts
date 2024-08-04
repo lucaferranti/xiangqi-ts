@@ -18,6 +18,9 @@ import { SquareSet } from './squareSet.js';
 import { Color, COLORS, Move, Outcome, Piece, Role, ROLES, Rules, Square } from './types.js';
 import { defined, opposite, squareFile } from './util.js';
 
+/**
+ * Data structure of error codes characterizing invalid board positions.
+ */
 export enum IllegalSetup {
   Empty = 'ERR_EMPTY',
   OppositeCheck = 'ERR_OPPOSITE_CHECK',
@@ -93,6 +96,10 @@ const PIECE_SPECS = {
 };
 
 const HORSE_DIR_INV_BLOCKERS = [[-19, -10], [-17, -8], [-11, -10], [7, 8], [-7, -8], [11, 10], [17, 8], [19, 10]];
+
+/**
+ * Determine squares from which a horse can attack the given `square`.
+ */
 export const horseInvAttacks = (square: Square, occupied: SquareSet): SquareSet => {
   let range = SquareSet.empty();
   for (const dir_blocker of HORSE_DIR_INV_BLOCKERS) {
@@ -109,6 +116,9 @@ const PAWN_INV_DIRS = {
   black: (sq: Square) => sq < 45 ? [-1, 9, 1] : [9],
 };
 
+/**
+ * Returns a bitboard of squares from which a pawn of color `color` could attack the given `square`.
+ */
 export const pawnInvAttacks = (color: Color, square: Square): SquareSet => {
   let range = SquareSet.empty();
   const dirs = PAWN_INV_DIRS[color](square);
@@ -119,7 +129,7 @@ export const pawnInvAttacks = (color: Color, square: Square): SquareSet => {
   return range;
 };
 
-// return bitboard with all pieces of `attacker` color attacking the square `square`.
+// Returns a bitboard with all pieces of `attacker` color attacking the square `square`.
 const attacksTo = (square: Square, attacker: Color, board: Board, occupied: SquareSet): SquareSet =>
   board[attacker].intersect(
     chariotAttacks(square, occupied).intersect(board.chariot)
@@ -131,6 +141,13 @@ const attacksTo = (square: Square, attacker: Color, board: Board, occupied: Squa
       .union(pawnInvAttacks(attacker, square).intersect(board.pawn)),
   );
 
+/**
+ * Data structure to cache additional useful information of a position. Currently it stores
+ * - king position
+ * - a bitboard containing all pieces giving a check.
+ *
+ * Note the context is dependent on whose turn is to play.
+ */
 export interface Context {
   king: Square | undefined;
   checkers: SquareSet;
@@ -143,6 +160,10 @@ export const defaultPosition = (rules: Rules): Position => {
   }
 };
 
+/**
+ * State description of the current position, storing the board situation, whose turn is to play,
+ * how many half-moves have gone without captures and how many total moves since the beginning.
+ */
 export abstract class Position {
   board: Board;
   turn: Color;
@@ -179,6 +200,7 @@ export abstract class Position {
     return attacksTo(square, attacker, this.board, occupied);
   }
 
+  /** Get the current context. */
   ctx(): Context {
     const king = this.board.kingOf(this.turn);
     if (!defined(king)) {
@@ -201,6 +223,9 @@ export abstract class Position {
     return pos;
   }
 
+  /**
+   * Check the given position is legal.
+   */
   protected validate(): Result<undefined, PositionError> {
     if (this.board.occupied.isEmpty()) return Result.err(new PositionError(IllegalSetup.Empty));
 
@@ -228,12 +253,16 @@ export abstract class Position {
     return Result.ok(undefined);
   }
 
+  /**
+   * Return all pseudomove a given `piece` placed on `square` can move. That is, return all possible
+   * moves without checking for pins or discovered checks.
+   */
   pseudoDests(piece: Piece, square: Square): SquareSet {
     const pseudo = attacks(piece, square, this.board.occupied);
     return pseudo.diff(this.board[this.turn]); // don't capture friendly pieces
   }
 
-  // generate all legal  for a piece on given square
+  /** generate all legal  for a piece on given square  */
   dests(square: Square, ctx?: Context): SquareSet {
     const piece = this.board.get(square);
     if (!piece || piece.color !== this.turn) return SquareSet.empty();
@@ -263,6 +292,10 @@ export abstract class Position {
     };
   }
 
+  /**
+   * Check if the given side has insufficient material to checkmate.
+   * Note! This is currently a simplified version and not all cases of insufficient material are detected.
+   */
   hasInsufficientMaterial(c: Color): boolean {
     if (this.board.pieces(c, 'chariot').union(this.board.pieces(c, 'horse')).nonEmpty()) return false;
     if (this.board.pieces(c, 'cannon').nonEmpty()) {
@@ -273,6 +306,7 @@ export abstract class Position {
     return this.board.pieces(c, 'pawn').diff(SquareSet.backrank(c)).isEmpty();
   }
 
+  /** Returns `true` if neither side can checkmate. */
   isInsufficientMaterial(): boolean {
     return COLORS.every(color => this.hasInsufficientMaterial(color));
   }
@@ -285,12 +319,13 @@ export abstract class Position {
     return false;
   }
 
-  /* Check if a move is legal */
+  /** Check if a move is legal */
   isLegal(move: Move, ctx?: Context): boolean {
     const dests = this.dests(move.from, ctx);
     return dests.has(move.to);
   }
 
+  /** Check if in the given position the two kings are facing each other with no piece in between. */
   isFacingKings(): boolean {
     const ourKing = this.board.king.first()!;
     const otherKing = this.board.king.last()!;
@@ -328,6 +363,9 @@ export abstract class Position {
     else return;
   }
 
+  /**
+   * Determine a vector of legal destinations for each piece of the player in turn.
+   */
   allDests(ctx?: Context): Map<Square, SquareSet> {
     ctx = ctx || this.ctx();
     const d = new Map();
@@ -337,6 +375,10 @@ export abstract class Position {
     return d;
   }
 
+  /**
+   * Play a move, i.e. update the board and move counters.
+   * This method assumes the move is valid and does not perform any validation.
+   */
   play(move: Move): void {
     const turn = this.turn;
 
@@ -352,6 +394,7 @@ export abstract class Position {
   }
 }
 
+/** Concrete class for standard xiangqi. */
 export class Xiangqi extends Position {
   private constructor() {
     super('xiangqi');
@@ -374,9 +417,11 @@ export class Xiangqi extends Position {
   }
 }
 
+/** Check if two positions are equal ignoring the number of moves and half-moves. */
 export const equalsIgnoreMoves = (left: Position, right: Position): boolean =>
   boardEquals(left.board, right.board) && left.turn === right.turn;
 
+/** Check the given side does not have extra pieces. */
 export const isStandardMaterialSide = (board: Board, color: Color): boolean => {
   for (const piece in ROLES) {
     if (piece === 'pawn' && board.pieces(color, piece as Role).size() > 5) return false;
@@ -386,9 +431,15 @@ export const isStandardMaterialSide = (board: Board, color: Color): boolean => {
   return true;
 };
 
+/** Check neither side doesnt' have any extra pieces. */
 export const isStandardMaterial = (pos: Xiangqi): boolean =>
   COLORS.every(color => isStandardMaterialSide(pos.board, color));
 
+/**
+ * Check if there is a check in the current position and return `true` if the check is impossible
+ * If it's not a check, return `false`.
+ * Note! Currently, this returns true only in the case of a check with more than 4 checkers.
+ */
 export const isImpossibleCheck = (pos: Position): boolean => {
   const ourKing = pos.board.kingOf(pos.turn);
   if (!defined(ourKing)) return false;

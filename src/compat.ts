@@ -1,8 +1,7 @@
 /**
  * Compatibility with other libraries.
  *
- * Convert between the formats used by xiangqi. This will allow for compatibility with
- * [xiangqiground](https://github.com/lucaferranti/xiangqiground).
+ * Convert between different formats used by elephantops and [xiangqiground](https://github.com/lucaferranti/xiangqiground).
  *
  * @packageDocumentation
  */
@@ -26,4 +25,7 @@ export const xiangqigroundDests = (pos: Position): Map<SquareName, SquareName[]>
   return result;
 };
 
+/**
+ * Convert a move into the format used by xiangqiground.
+ */
 export const xiangqigroundMove = (move: Move): SquareName[] => [makeSquare(move.from), makeSquare(move.to)];

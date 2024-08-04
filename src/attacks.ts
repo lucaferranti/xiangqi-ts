@@ -3,12 +3,6 @@
  *
  * These are low-level functions that can be used to implement xiangqi rules.
  *
- * Implementation notes: Sliding attacks are computed using
- * [Hyperbola Quintessence](https://www.chessprogramming.org/Hyperbola_Quintessence).
- * Magic Bitboards would deliver slightly faster lookups, but also require
- * initializing considerably larger attack tables. On the web, initialization
- * time is important, so the chosen method may strike a better balance.
- *
  * @packageDocumentation
  */
 
@@ -75,7 +69,7 @@ export const kingAttacks = (color: Color, square: Square): SquareSet => {
 };
 
 /**
- * Gets squares attacked or defended by a king of side `color` on `square`.
+ * Gets squares attacked or defended by an advisor of side `color` on `square`.
  */
 export const advisorAttacks = (color: Color, square: Square): SquareSet => {
   let range = SquareSet.empty();
@@ -151,7 +145,9 @@ export const chariotAttacks = (square: Square, occupied: SquareSet): SquareSet =
 };
 
 /**
- * Gets squares attacked or defended by a cannon on `square`, given `occupied`
+ * Gets squares attacked or defended by a cannon on `square`, given `occupied`.
+ * If `keepMount` is set to `true`, then also the potential mount (first piece encountered in a ray)
+ * is included in the returned biboard. This is useful to parse SAN moves.
  * squares.
  */
 // TODO: try rewriting this with hyperbola quintessence
@@ -183,8 +179,7 @@ export const cannonAttacks = (square: Square, occupied: SquareSet, keepMount?: b
 };
 
 /**
- * Gets squares attacked or defended by a `piece` on `square`, given
- * `occupied` squares.
+ * Gets squares seen by a `piece` on `square`, given `occupied` squares.
  */
 export const attacks = (
   piece: Piece,
