@@ -11,7 +11,6 @@ import {
   isValidStep,
   KING_SQUARES,
   kingAttacks,
-  pawnAttacks,
 } from './attacks.js';
 import { Board, boardEquals } from './board.js';
 import { Setup } from './setup.js';
@@ -105,6 +104,21 @@ export const horseInvAttacks = (square: Square, occupied: SquareSet): SquareSet 
   return range;
 };
 
+const PAWN_INV_DIRS = {
+  red: (sq: Square) => sq >= 45 ? [-1, -9, 1] : [-9],
+  black: (sq: Square) => sq < 45 ? [-1, 9, 1] : [9],
+};
+
+export const pawnInvAttacks = (color: Color, square: Square): SquareSet => {
+  let range = SquareSet.empty();
+  const dirs = PAWN_INV_DIRS[color](square);
+  for (const dir of dirs) {
+    const dest = square + dir;
+    if (isValidStep(square, dest)) range = range.with(dest);
+  }
+  return range;
+};
+
 // return bitboard with all pieces of `attacker` color attacking the square `square`.
 const attacksTo = (square: Square, attacker: Color, board: Board, occupied: SquareSet): SquareSet =>
   board[attacker].intersect(
@@ -114,7 +128,7 @@ const attacksTo = (square: Square, attacker: Color, board: Board, occupied: Squa
       .union(advisorAttacks(attacker, square).intersect(board.advisor))
       .union(kingAttacks(attacker, square).intersect(board.king))
       .union(cannonAttacks(square, occupied).intersect(board.cannon))
-      .union(pawnAttacks(opposite(attacker), square).intersect(board.pawn)),
+      .union(pawnInvAttacks(attacker, square).intersect(board.pawn)),
   );
 
 export interface Context {
