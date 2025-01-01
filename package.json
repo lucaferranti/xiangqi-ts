@@ -43,7 +43,7 @@
     "@jest/globals": "^29",
     "@typescript-eslint/eslint-plugin": "^8",
     "@typescript-eslint/parser": "^8",
-    "dprint": "^0.47",
+    "dprint": "^0.48",
     "eslint": "^8",
     "jest": "^29",
     "ts-jest": "^29",
